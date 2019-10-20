@@ -76,18 +76,7 @@ bool isCorrectEquation(string equation, int solution) {
             break;
         }
 
-        vector<int> valuesCopy(values.size() - 1);
-        int idx = 0;
-
-        for (int i = 0; i < values.size(); i++) {
-            if (i == indexOfOperation + 1)
-                continue;
-
-            valuesCopy[idx] = values[i];
-            idx++;
-        }
-
-        values = valuesCopy;
+        copyExceptForIndex(values, indexOfOperation);
     }
 
     return values[0] == solution;
