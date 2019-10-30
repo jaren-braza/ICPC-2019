@@ -10,27 +10,18 @@ using namespace std;
 /* FORWARD DECLARATIONS */
 //////////////////////////
 
-// Returns the core of the string.
-// Cores are lowercase, alphabetically-filtered strings.
-// This string will be made all lowercase.
+// Returns the alphabetically-filtered and all-lowercase version of the string.
 string getCore(string word);
 
-// Returns all collected "cores" over the entire input.
-// We go through each word in the input and collect its core.
-// If a core is empty or "***", they are not collected.
+// Returns an array of all collected "cores" over the entire input.
 vector<string> parseCores();
 
 // Returns if the first string can be transformed into the second string.
-// Possible transformations are:
-// - If strings differ by a single character:
-// --- 1. Deleting a character from the larger string to create the smaller string.
-// --- [NOTE] The above covers the case for inserting a character too!
-// - If strings are the same size:
-// --- 2. Replacing only one character.
-// --- 3. Swapping two adjacent characters only once.
+// The three possible transformations are deletion, replacement, and transposition.
+// Note that deletion always accounts for insertion.
 bool canTransform(string& s1, string& s2);
 
-// Returns if we can delete a single character from the first string to equal the second string.
+// Returns if we can delete a single character from the larger string to equal the smaller string.
 bool canDelete(string& s1, string& s2);
 
 // Returns if we can replace a single character from the first string to equal the second string.
@@ -40,17 +31,12 @@ bool canReplace(string& s1, string& s2);
 bool canTranspose(string& s1, string& s2);
 
 
-//////////
-/* MAIN */
-//////////
-
 // 1. Go through all pairs of cores and collect pairs that can transform to each other into a mapping.
-// --- Using a set as the value for the mapping ensures we avoid duplicate pairs
-// --- Example: For input "aa \n ***", we avoid having {"aa" : ["aa", "aa"]}.
-// --- Additionally, the map and set MUST be ordered to properly match the output.
-// ----- This means, don't use unordered_set or unordered_map.
+// --- Match output by using an ordered mapping and set
+// --- Avoid duplicates within map by using a set for the value
+// --- Example: For input "aa aa \n ***", we avoid having {"aa" : ["aa", "aa"]}.
 // 2. Go through each key-value entry in the mapping and output the results.
-// --- If the mapping is empty, then simple output "***".
+// --- If the mapping is empty, then simply output "***".
 int main() {
     vector<string> cores = parseCores();
     map<string, set<string>> similarCoresMap;
@@ -86,10 +72,6 @@ int main() {
     return 0;
 }
 
-
-/////////////////////
-/* IMPLEMENTATIONS */
-/////////////////////
 
 string getCore(string word) {
     if (word == "***")
@@ -135,7 +117,6 @@ bool canTransform(string& s1, string& s2) {
     if (s1.size() > s2.size())
         return canDelete(s1, s2);
     
-    // s1.size() < s2.size()
     return canDelete(s2, s1);
 }
 
