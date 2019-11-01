@@ -16,7 +16,7 @@ map<string, set<string>> parseBackups();
 string getFileName(string fullBackupName);
 
 
-// Parse input to get files and backups (which is file names and versioning).
+// Parse input to get files (filenames) and backups (filenames and associated backup names).
 // 
 // - For each entry {filename : [fullBackupNames]} in the backups:
 // --- If the filename is not in our files:
@@ -27,7 +27,7 @@ string getFileName(string fullBackupName);
 // - If nothing was printed:
 // --- Print that there were no orphan files
 //
-// Also, because set and map are sorted, we know the answer is printed alphabetically!
+// Because set and map are sorted, the answer is outputted alphabetically!
 int main() {
     set<string> files = parseFiles();
     map<string, set<string>> backups = parseBackups();
