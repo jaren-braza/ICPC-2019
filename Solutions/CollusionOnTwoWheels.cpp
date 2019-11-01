@@ -17,8 +17,21 @@ struct ComplementGraph {
     int computeManhattanDistance(Point& p1, Point& p2);
 };
 
-// Binary search the smallest distance we can get two complete subgraphs of customers.
+// Search for the smallest distance where:
+// - There will only be two complete subgraphs.
+// - A customer within a subgraph is at most the searched distance of other customers in that subgraph.
+//
+// The idea is pretty interesting:
+// - What does it mean for the graph to have ONLY two complete subgraphs?
+// --- If the complement was colored, each subgraph would have only one color associated with its nodes.
+// - Why?
+// --- Each subgraph of the graph would normally contain nodes a distance from each other.
+// --- The complement of the graph should have the nodes of one subgraph to NOT connect to each other.
+// --- That means, if we ONLY have TWO subgraphs, the complement should only be colored with TWO colors.
+// ----- If there is more than two colors, the distance did not cover enough customers.
+// ----- If there is at most two colors, nice! Search if it is possible with even smaller distances.
 int getMinAllowedDistance(vector<Point>& customers);
+
 
 int main() {
     int customerCount;
@@ -36,8 +49,8 @@ int main() {
 
 
 int getMinAllowedDistance(vector<Point>& customers) {
-    int low = 0;
-    int high = 2000;
+    int low = 0;        // Minimum distance, where each company has only one customer
+    int high = 2000;    // Maximum Manhattan distance for a 1000x1000 graph
     int distance;
 
     while (low < high) {
@@ -111,6 +124,7 @@ bool ComplementGraph::isTwoColorable() {
     return true;
 }
 
+// Returns the Manhattan distance between two points.
 int ComplementGraph::computeManhattanDistance(Point& p1, Point& p2) {
     return abs(p1.first - p2.first) + abs(p1.second - p2.second);
 }
