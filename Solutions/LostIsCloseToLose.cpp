@@ -6,10 +6,6 @@
 #include <vector>
 using namespace std;
 
-//////////////////////////
-/* FORWARD DECLARATIONS */
-//////////////////////////
-
 // Returns the alphabetically-filtered and all-lowercase version of the string.
 string getCore(string word);
 
@@ -153,6 +149,7 @@ bool canReplace(string& s1, string& s2) {
 
 bool canTranspose(string& s1, string& s2) {
     for (int i = 0; i < s1.size() - 1; i++) {
+        // If there is a difference, attempt the single chance to swap with the adjacent position.
         if (s1[i] != s2[i]) {
             string swapped = s1;
             swap(swapped[i], swapped[i + 1]);
